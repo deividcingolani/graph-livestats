@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { request } from 'graphql-request'
+import {queryRefreshRates} from "./queryes";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [products, setProducts] = useState(null);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await request(
+          'https://api-us-east-1.graphcms.com/v2/cklv8d47hep1201v194x43cei/master',
+          queryRefreshRates
+      );
+
+      setProducts(products);
+    };
+
+    fetchProducts();
+  }, []);
+  console.log(products);
+  return <div className="App">test</div>;
 }
 
 export default App;
